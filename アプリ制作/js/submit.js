@@ -53,12 +53,54 @@ target: ".app",
     || [];
 
 
+    let editIndex = localStorage.getItem("editSubmitIndex");
+
+if(editIndex !== null){
+
+    submits[editIndex] = {
+        title:title,
+        date:date
+    };
+
+    localStorage.removeItem("editSubmitIndex");
+
+}else{
+
+    let editIndex =
+localStorage.getItem("editSubmitIndex");
+
+
+if(editIndex !== null){
+
+    submits[editIndex] = {
+
+        title:title,
+
+        date:date
+
+    };
+
+
+    localStorage.removeItem(
+        "editSubmitIndex"
+    );
+
+
+}else{
+
+
     submits.push({
 
         title:title,
+
         date:date
 
     });
+
+
+}
+
+}
 
 
     localStorage.setItem(
@@ -74,7 +116,7 @@ target: ".app",
 
     icon: "success",
 
-    title: "追加しました！",
+    title: editIndex !== null ? "更新しました！" : "追加しました！",
      width: 300,
     confirmButtonColor: "#6b3df5"
 
@@ -175,6 +217,11 @@ ${item.title}
 <div class="task-remain ${remainClass}">
 ${remainText}
 </div>
+<div class="task-buttons">
+
+<button class="edit-btn" onclick="editSubmit(${index})">
+編集
+</button>
 
 <button class="done-btn" onclick="deleteSubmit(${index})">
 提出済み
@@ -207,8 +254,13 @@ function deleteSubmit(index){
     loadSubmit();
 
 }
+function editSubmit(index){
 
+    localStorage.setItem("editSubmitIndex", index);
 
+    location.href = "add-submit.html";
+
+}
 
 window.onload=function(){
 
@@ -498,5 +550,41 @@ checkInput
 function goHome(){
 
     location.href="index.html";
+
+}
+
+window.onload = function(){
+
+    flatpickr("#date",{
+        locale:"ja",
+        dateFormat:"Y-m-d"
+    });
+
+    let index = localStorage.getItem("editSubmitIndex");
+
+    if(index !== null){
+
+        let submits =
+        JSON.parse(localStorage.getItem("submits")) || [];
+
+        document.getElementById("title").value =
+        submits[index].title;
+
+        document.getElementById("date").value =
+        submits[index].date;
+
+        document.querySelector(".save").textContent =
+        "💾 更新";
+        document.getElementById("homeBtn").textContent =
+"🔙 一覧に戻る";
+
+
+document.getElementById("homeBtn").onclick =
+function(){
+
+    location.href="tasks.html";
+
+};
+    }
 
 }

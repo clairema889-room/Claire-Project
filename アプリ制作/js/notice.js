@@ -109,10 +109,18 @@ div.innerHTML =
 
 </div>
 
+<div class="task-buttons">
 
-<button class="delete-btn" onclick="deleteNotice(${index})">
-削除
+<button class="edit-btn" onclick="editNotice(${index})">
+✏️ 編集
 </button>
+
+<button class="done-btn" onclick="deleteNotice(${index})">
+🗑️ 削除
+</button>
+
+</div>
+
 
     `;
 
@@ -124,7 +132,16 @@ div.innerHTML =
     });
 
 }
+function editNotice(index){
 
+    localStorage.setItem(
+        "editNoticeIndex",
+        index
+    );
+
+    location.href="add-notice.html";
+
+}
 
 
 function addNotice(){
@@ -132,59 +149,54 @@ function addNotice(){
     let text =
     document.getElementById("noticeText").value;
 
-
     let date =
     document.getElementById("noticeDate").value;
 
 
-   if(text == ""){
+    if(text == "" || date == ""){
 
-    Swal.fire({
-target: ".app",
+        return;
 
-position: "top",
-        icon:"warning",
-
-        title:"通知内容を入力してください",
-
-        width:280,
-
-        confirmButtonColor:"#6b3df5"
-
-    });
-
-    return;
-
-}
+    }
 
 
-if(date == ""){
+    let notices =
+    JSON.parse(localStorage.getItem("notices")) || [];
 
-    Swal.fire({
-target: ".app",
 
-position: "top",
-        icon:"warning",
+    let editIndex =
+    localStorage.getItem("editNoticeIndex");
 
-        title:"日付を選択してください",
 
-        width:280,
+    if(editIndex !== null){
 
-        confirmButtonColor:"#6b3df5"
+        notices[editIndex] = {
 
-    });
+            text:text,
 
-    return;
+            date:date
 
-}
+        };
 
-    notices.push({
 
-        text: text,
+        localStorage.removeItem(
+            "editNoticeIndex"
+        );
 
-        date: date
 
-    });
+    }else{
+
+
+        notices.push({
+
+            text:text,
+
+            date:date
+
+        });
+
+
+    }
 
 
     localStorage.setItem(
@@ -193,26 +205,7 @@ position: "top",
     );
 
 
-    Swal.fire({
-target: ".app",
-
-position: "top",
-    icon:"success",
-
-    title:"保存しました！",
-
-    width:280,
-
-    confirmButtonColor:"#6b3df5"
-
-}).then(()=>{
-
     location.href="notice.html";
-
-});
-
-
-    
 
 }
 
@@ -378,6 +371,47 @@ function backNotice(){
 
         location.href="notice-menu.html";
 
+
+    }
+
+}
+
+window.onload = function(){
+
+    let index =
+    localStorage.getItem("editNoticeIndex");
+
+
+    if(index !== null){
+
+        let notices =
+        JSON.parse(localStorage.getItem("notices")) || [];
+
+
+        document.getElementById("noticeText").value =
+        notices[index].text;
+
+
+        document.getElementById("noticeDate").value =
+        notices[index].date;
+
+
+        document.querySelector(".save").textContent =
+        "💾 更新";
+document.getElementById("homeNoticeBtn").textContent =
+"🔙 一覧に戻る";
+
+document.getElementById("homeNoticeBtn").onclick =
+function(){
+
+    location.href="notice.html";
+
+};
+
+    }else{
+
+        document.querySelector(".save").textContent =
+        "💾 保存";
 
     }
 

@@ -63,31 +63,55 @@ html += "<td></td>";
 
 }
 
+let submits =
+JSON.parse(localStorage.getItem("submits")) || [];
 
+let notices =
+JSON.parse(localStorage.getItem("notices")) || [];
 
 for(let day=1;day<=last.getDate();day++){
 
+    let date =
+    year + "-" +
+    String(month + 1).padStart(2,"0") + "-" +
+    String(day).padStart(2,"0");
 
-html += `
+    let hasSubmit =
+    submits.some(item => item.date === date);
 
-<td id="day${day}" onclick="selectDay(${day})">
+    let hasNotice =
+    notices.some(item => item.date === date);
 
-${day}
+    let mark = "";
 
-</td>
+if(hasSubmit && hasNotice){
 
-`;
+    mark = "<br>📌";
 
+}else if(hasSubmit){
 
-if((first.getDay()+day)%7==0){
+    mark = "<br>📝";
 
-html += "</tr><tr>";
+}else if(hasNotice){
+
+    mark = "<br>🔔";
 
 }
 
+    html += `
+    <td id="day${day}" onclick="selectDay(${day})">
+        ${day}
+        ${mark}
+    </td>
+    `;
+
+    if((first.getDay()+day)%7==0){
+
+        html += "</tr><tr>";
+
+    }
 
 }
-
 
 html += `
 
@@ -176,21 +200,73 @@ function selectDay(day){
 
     let submitText = "";
 
-    submits.forEach(item => {
-        if(item.date === date){
-            submitText += "・" + item.title + "<br>";
-        }
-    });
+    submits.forEach((item,index) => {
+
+    if(item.date === date){
+
+        submitText += `
+
+<div class="task-card">
+
+<div class="task-title">
+${item.title}
+</div>
+
+<div class="task-buttons">
+
+<button class="edit-btn" onclick="editSubmit(${index})">
+✏️
+</button>
+
+<button class="done-btn" onclick="calendarDeleteSubmit(${index})">
+🗑️
+</button>
+
+</div>
+
+</div>
+
+`;
+    }
+
+});
+　　
 
     
 
     let noticeText = "";
 
-    notices.forEach(item => {
-        if(item.date === date){
-            noticeText += "・" + item.text + "<br>";
-        }
-    });
+    notices.forEach((item,index) => {
+
+    if(item.date === date){
+
+        
+noticeText += `
+
+<div class="task-card">
+
+<div class="task-title">
+ ${item.text}
+</div>
+
+<div class="task-buttons">
+
+<button class="edit-btn" onclick="editNotice(${index})">
+✏️
+</button>
+
+<button class="done-btn" onclick="calendarDeleteNotice(${index})">
+🗑️
+</button>
+
+</div>
+
+</div>
+
+`;
+    }
+
+});
 
  let html = `
 <b>${year}年${month+1}月${day}日</b><br><br>
@@ -236,3 +312,34 @@ document.activeElement.blur();
 
 createCalendar();
 
+function calendarDeleteSubmit(index){
+
+    let submits =
+    JSON.parse(localStorage.getItem("submits")) || [];
+
+    submits.splice(index,1);
+
+    localStorage.setItem(
+        "submits",
+        JSON.stringify(submits)
+    );
+
+    createCalendar();
+
+}
+
+function calendarDeleteNotice(index){
+
+    let notices =
+    JSON.parse(localStorage.getItem("notices")) || [];
+
+    notices.splice(index,1);
+
+    localStorage.setItem(
+        "notices",
+        JSON.stringify(notices)
+    );
+
+    createCalendar();
+
+}

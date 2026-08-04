@@ -313,21 +313,6 @@ textarea:focus{
 
 /* ---------- 削除ボタン ---------- */
 
-.task-card button{
-    position:absolute;
-    right:15px;
-    top:50%;
-    transform:translateY(-50%);
-
-    width:40px;
-    height:40px;
-
-    border:none;
-    border-radius:10px;
-
-    background:#6b3df5;
-    color:#fff;
-}
 
 /* ---------- 今日カード ---------- */
 
@@ -1301,4 +1286,115 @@ a + a .trainButton{
 
 #userName{
     cursor:pointer;
+}
+
+.calendar-table td{
+    position: relative;
+}
+
+.day-mark{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    transform: scale(0.6);
+    transform-origin: top right;
+    display: inline-block;
+}
+
+
+.task-buttons{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+
+.task-buttons button{
+    position:static !important;
+    transform:none !important;
+
+    width:75px;
+    height:35px;
+
+    border-radius:20px;
+    border:2px solid #ddd;
+
+    background:white !important;
+    color:#000 !important;
+
+    font-size:13px;
+}
+.edit-btn{
+    font-size:13px;
+    font-weight:bold;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+#dayPlan button{
+
+    width:35px;
+    height:35px;
+
+    border-radius:50%;
+
+    border:1px solid #ddd;
+
+    background:#f7f7f7 !important;
+
+    color:#000 !important;
+
+    font-size:16px;
+    font-weight:bold;
+
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-left:8px;
+
+    padding:0;
+
+    box-shadow:0 3px 8px rgba(0,0,0,0.15);
+}
+.task-buttons{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:10px;
+}
+
+
+.task-buttons{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:10px;
+}
+
+.task-buttons button{
+
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    border:1px solid #ddd;
+
+    background:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:0;
+
 }
