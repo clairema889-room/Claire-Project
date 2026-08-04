@@ -112,11 +112,11 @@ div.innerHTML =
 <div class="task-buttons">
 
 <button class="edit-btn" onclick="editNotice(${index})">
-✏️ 編集
+編集
 </button>
 
 <button class="done-btn" onclick="deleteNotice(${index})">
-🗑️ 削除
+削除
 </button>
 
 </div>

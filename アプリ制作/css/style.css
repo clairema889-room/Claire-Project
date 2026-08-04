@@ -1380,7 +1380,14 @@ a + a .trainButton{
     margin-top:10px;
 }
 
-.task-buttons button{
+#dayPlan .task-buttons{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:10px;
+}
+
+#dayPlan .task-buttons button{
 
     width:40px;
     height:40px;
@@ -1397,4 +1404,68 @@ a + a .trainButton{
 
     padding:0;
 
+}
+.task-card .task-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+}
+.card .task-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+#dayPlan .task-buttons{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+}
+
+#dayPlan .task-buttons button{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1px solid #ddd;
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0;
+}
+.task-card .task-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+}.task-card .edit-btn,
+.task-card .done-btn{
+
+    width:70px;
+    height:35px;
+
+    border-radius:18px;
+
+    font-size:13px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:0;
 }
