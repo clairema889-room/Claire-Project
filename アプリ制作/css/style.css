@@ -1469,3 +1469,10 @@ a + a .trainButton{
 
     padding:0;
 }
+#title,
+#date{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+}
