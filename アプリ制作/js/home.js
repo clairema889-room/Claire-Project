@@ -111,14 +111,17 @@ if(todayScheduleLink){
 
         if(day == 0 || day == 6){
 
-            Swal.fire({
-                target: ".app",
-                position:"top",
-                icon:"info",
-                title:"今日は休日です",
-                width:280,
-                confirmButtonColor:"#6b3df5"
-            });
+           Swal.fire({
+    icon: "info",
+    title: "今日は休日です",
+    width: 280,
+
+    customClass: {
+        popup: "small-alert"
+    },
+
+    confirmButtonColor: "#6b3df5"
+});
 
             return;
 
@@ -240,7 +243,6 @@ function openTodayTask(){
 
     if(todayTasks.length === 0){
 Swal.fire({
-    target: ".phone",
     icon: "info",
     title: "今日の提出物はありません",
     width: 280,
@@ -281,8 +283,7 @@ function openTodayNotice(){
     notices.filter(item => item.date === today);
 
     if(todayNotices.length === 0){
-  Swal.fire({
-    target: ".phone",
+ Swal.fire({
     icon: "info",
     title: "今日の通知はありません",
     width: 280,

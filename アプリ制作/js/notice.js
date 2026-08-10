@@ -348,23 +348,21 @@ function backNotice(){
 
         Swal.fire({
 
-            target: ".app",
+    icon: "warning",
 
-            position:"top",
+    title: "保存されていません",
 
-            icon:"warning",
+    text: "入力内容があります",
 
-            title:"保存されていません",
+    width: 280,
 
-            text:"入力内容があります",
+    customClass: {
+        popup: "small-alert"
+    },
 
-            width:280,
+    confirmButtonColor: "#6b3df5"
 
-            confirmButtonColor:"#6b3df5"
-
-
-        });
-
+});
 
     }else{
 
