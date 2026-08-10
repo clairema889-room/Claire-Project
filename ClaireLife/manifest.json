@@ -1,6 +1,6 @@
 {
-  "name": "学校管理アプリ",
-  "short_name": "学校アプリ",
+  "name": "ClaireLife",
+  "short_name": "ClaireLife",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
