@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- LIFF SDKの読み込み（この1行でLIFFの機能が使えるようになる） -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+<pre id="profile">未取得</pre>
+<button id="login">ログイン / プロフィール取得</button>
+
+```html
+<script type="module">
+import { auth, db } from "./firebase.js";
+
+import {
+    signInWithCustomToken
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+    doc,
+    setDoc
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const LIFF_ID = "2010798410-JCfc0ZnA";
+
+(async () => {
+
+    try {
+
+        // --------------------------------
+        // LIFFを初期化
+        // --------------------------------
+        await liff.init({
+            liffId: LIFF_ID
+        });
+
+        console.log("LIFF初期化完了");
+
+
+        // --------------------------------
+        // LINEにログインしていない場合
+        // --------------------------------
+        if (!liff.isLoggedIn()) {
+
+            liff.login();
+
+            return;
+        }
+
+
+        // --------------------------------
+        // LINE IDトークンを取得
+        // --------------------------------
+        const idToken = liff.getIDToken();
+
+        if (!idToken) {
+
+            throw new Error(
+                "LINE IDトークンを取得できませんでした。"
+            );
+        }
+
+        console.log("LINE IDトークン取得完了");
+
+
+        // --------------------------------
+        // 自分のサーバーへIDトークンを送信
+        // --------------------------------
+        const response = await fetch(
+            "/api/line-login",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    idToken: idToken
+                })
+            }
+        );
+
+
+        // --------------------------------
+        // サーバーからの結果を確認
+        // --------------------------------
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                "LINEログインに失敗しました。\n" +
+                errorText
+            );
+        }
+
+
+        const result =
+            await response.json();
+
+
+        if (!result.customToken) {
+
+            throw new Error(
+                "Firebase Custom Tokenを取得できませんでした。"
+            );
+        }
+
+
+        // --------------------------------
+        // Firebase Authenticationへログイン
+        // --------------------------------
+        const userCredential =
+            await signInWithCustomToken(
+                auth,
+                result.customToken
+            );
+
+
+        const user =
+            userCredential.user;
+
+
+        console.log(
+            "Firebaseログイン成功:",
+            user.uid
+        );
+
+
+        // --------------------------------
+        // Firestoreへユーザー情報を保存
+        // --------------------------------
+        await setDoc(
+            doc(
+                db,
+                "users",
+                user.uid
+            ),
+            {
+                lineUserId: result.lineUserId || "",
+                displayName: result.displayName || "",
+                pictureUrl: result.pictureUrl || "",
+                email: result.email || "",
+                updatedAt:
+                    new Date().toISOString()
+            },
+            {
+                merge: true
+            }
+        );
+
+
+        console.log(
+            "Firestoreユーザー情報保存完了"
+        );
+
+
+        // --------------------------------
+        // ログイン完了
+        // --------------------------------
+        location.replace("index.html");
+
+
+    } catch (e) {
+
+        console.error(
+            "LINE → Firebaseログインエラー:",
+            e
+        );
+
+        alert(
+            "ログインできませんでした。\n\n" +
+            e.message
+        );
+    }
+
+})();
+</script>
+</body>
+</html>
