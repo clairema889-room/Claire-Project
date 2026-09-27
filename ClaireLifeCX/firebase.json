@@ -1,0 +1,26 @@
+{
+  "functions": {
+    "source": "functions"
+  },
+
+  "hosting": {
+    "public": ".",
+
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**"
+    ],
+
+    "rewrites": [
+      {
+        "source": "/api/line-login",
+        "function": {
+          "functionId": "lineLogin",
+          "region": "asia-northeast1"
+        }
+      }
+    ]
+  }
+}
