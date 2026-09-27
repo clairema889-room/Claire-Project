@@ -277,6 +277,8 @@
                     "Firestore保存完了"
                 );
 
+                profileElement.textContent ="Firestore保存完了";
+
 
                 // ====================================
                 // ログイン完了
@@ -290,16 +292,16 @@
                 // index.htmlへ移動
                 // ====================================
 
-                //setTimeout(
-                //    () => {
+                setTimeout(
+                    () => {
 
-                //        location.replace(
-                //            "login.html"
-                //        );
+                        location.replace(
+                            "index.html"
+                        );
 
-                //    },
-                //    300
-                //);
+                    },
+                    300
+                );
 
 
             } catch (error) {
